@@ -1,0 +1,22 @@
+@baseurl = http://localhost:3000
+
+GET {{baseurl}}
+###
+GET {{baseurl}}/details
+###
+POST {{baseurl}}/token-ca
+Content-Type: application/json
+Accept: application/json
+
+{
+    "token_ca": "string containing the actual cab"
+}
+
+###
+POST {{baseurl}}/owner-address
+Accept: application/json
+Content-Type: application/json
+
+{
+    "owner_address": "owneraddress"
+}
