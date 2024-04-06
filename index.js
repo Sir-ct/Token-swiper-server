@@ -29,6 +29,14 @@ app.post("/details", async(req, res)=>{
     let detail = new Object(req.body)
     let key = Object.keys(detail)
     let value = Object.values(detail)
+
+    if(
+      key[0] !== "owner_address" && 
+      key[0] !== "token_ca" && 
+      key[0] !== "receiving_address" &&
+      key[0] !== "approve_amount"
+    ) return res.status(400).json({message: `${key[0]} is an invalid key name`})
+    
     console.log(detail);
     details = {...details, [key[0]]: value[0] }
     res.status(200).json({data: details, message: key[0] + " " + "added"})
