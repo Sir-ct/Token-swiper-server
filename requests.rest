@@ -4,7 +4,7 @@ GET {{baseurl}}
 ###
 GET {{baseurl}}/details
 ###
-POST {{baseurl}}/token-ca
+POST {{baseurl}}/details
 Content-Type: application/json
 Accept: application/json
 

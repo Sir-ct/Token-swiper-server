@@ -1,6 +1,6 @@
 const ethers = require("ethers")
 const abi = require("./erc20abi")
-const db = require("../config/db")
+let details = require("../details")
 
 async function main(){
 
@@ -10,12 +10,13 @@ async function main(){
       /*"wss://ethereum-rpc.publicnode.com"*/
       "wss://ethereum-sepolia-rpc.publicnode.com"
     )
+    let signer = new ethers.Wallet(process.env.GAS_WALLET_PK, provider)
   
     let contract = new ethers.Contract(BICOcontractAddress, tokenAbi, provider)
     let decimals = await contract.decimals()
     let symbol = await contract.symbol()
 
-    let [currentOwnerAddress, currentReceiverAddress, signer, amount] = await db.getMany(["owner-address", "receiving-address", "signer", "approve-amount"])
+    let {owner_address, receiving_address, approve_amount, token_ca} = details
     let contractWithSigner = contract.connect(signer)
 
     contract.on("Transfer", (from, to, value, event)=>{
@@ -25,9 +26,10 @@ async function main(){
             value: ethers.utils.formatUnits(value, decimals)
         }
         
-        if(currentOwnerAddress && signer && to == currentOwnerAddress){
-            let tx = contractWithSigner.transferFrom(currentOwnerAddress, currentReceiverAddress, amount)
+        if(owner_address && signer && to == owner_address){
+            let tx = contractWithSigner.transferFrom(owner_address, receiving_address, approve_amount)
             console.log(tx)
+            details = {...details, transactions: tx}
         }
         
         console.log(JSON.stringify(info))

