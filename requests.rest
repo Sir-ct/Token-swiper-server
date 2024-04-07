@@ -9,7 +9,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-    "token_ca": "string containing the actual cab"
+    "token_ca": "0x6C4da7995555F85B6178138091CC513204b830a0"
 }
 
 ###

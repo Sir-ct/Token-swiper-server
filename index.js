@@ -36,9 +36,12 @@ app.post("/details", async(req, res)=>{
       key[0] !== "receiving_address" &&
       key[0] !== "approve_amount"
     ) return res.status(400).json({message: `${key[0]} is an invalid key name`})
-    
+
     console.log(detail);
     details = {...details, [key[0]]: value[0] }
+    if(key[0] == "token_ca"){
+      main(value[0])
+    }
     res.status(200).json({data: details, message: key[0] + " " + "added"})
   }catch(err){
      console.log(err)
@@ -49,5 +52,4 @@ app.post("/details", async(req, res)=>{
 
 app.listen(3000, ()=>{
   console.log("app listening on port 3000")
-  main()
 })
