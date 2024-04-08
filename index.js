@@ -3,9 +3,11 @@ require("dotenv").config()
 const express = require("express")
 const main = require("./ethereum/main")
 const cors = require("cors")
-let details = require("./details")
+const db = require("./db/db")
+const DetailsSchema = require("./models/detailsModel")
 
 const app = express()
+db()
 
 app.use(cors())
 app.use(express.json())
@@ -17,8 +19,8 @@ app.get("/", (req, res)=>{
 
 app.get("/details", async(req, res)=>{
   try{
-     let result = details
-     res.status(200).json({data: result, message: "details fetched"})
+     let result = await DetailsSchema.find()
+     res.status(200).json({data: result[0], message: "details fetched"})
   }catch(err){
     res.status(500).json({message: err.message})
   }
@@ -38,11 +40,15 @@ app.post("/details", async(req, res)=>{
     ) return res.status(400).json({message: `${key[0]} is an invalid key name`})
 
     console.log(detail);
-    details = {...details, [key[0]]: value[0] }
+    let userDetail = await DetailsSchema.find()
+    let id = userDetail[0].id
+    console.log(id)
+    let firstDetail = await DetailsSchema.findByIdAndUpdate(id,{[key[0]]: value[0]})
+    
     if(key[0] == "token_ca"){
       main(value[0])
     }
-    res.status(200).json({data: details, message: key[0] + " " + "added"})
+    res.status(200).json({data: firstDetail, message: key[0] + " " + "added"})
   }catch(err){
      console.log(err)
     res.status(500).json({message: err.message})

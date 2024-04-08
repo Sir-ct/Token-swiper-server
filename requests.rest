@@ -13,10 +13,28 @@ Accept: application/json
 }
 
 ###
-POST {{baseurl}}/owner-address
+POST {{baseurl}}/details
 Accept: application/json
 Content-Type: application/json
 
 {
-    "owner_address": "owneraddress"
+    "owner_address": "0x2d21cc84599156a8068d7a5b060339acdf17a176"
+}
+###
+POST {{baseurl}}/details
+Accept: application/json
+Content-Type: application/json
+
+{
+    "approve_amount": "10"
+}
+
+###
+
+POST {{baseurl}}/details
+Accept: application/json
+Content-Type: application/json
+
+{
+    "receiving_address": "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199"
 }
