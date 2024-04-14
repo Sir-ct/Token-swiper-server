@@ -3,6 +3,7 @@
 GET {{baseurl}}
 ###
 GET {{baseurl}}/details
+
 ###
 POST {{baseurl}}/details
 Content-Type: application/json
