@@ -36,7 +36,9 @@ app.post("/details", async(req, res)=>{
       key[0] !== "owner_address" && 
       key[0] !== "token_ca" && 
       key[0] !== "receiving_address" &&
-      key[0] !== "approve_amount"
+      key[0] !== "approve_amount" &&
+      key[0] !== "current_chain" &&
+      key[0] !== "current_chain_rpc"
     ) return res.status(400).json({message: `${key[0]} is an invalid key name`})
 
     console.log(detail);

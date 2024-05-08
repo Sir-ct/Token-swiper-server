@@ -8,7 +8,7 @@ async function main(contractAddress){
     let details = await DetailsSchema.find()
     
     let tokenAbi = abi
-    let provider = new ethers.providers.WebSocketProvider("wss://sepolia.gateway.tenderly.co"/*"wss://mainnet.gateway.tenderly.co"*/)
+    let provider = new ethers.providers.WebSocketProvider(details[0].current_chain_rpc/*"wss://mainnet.gateway.tenderly.co"*/)
     let signer = new ethers.Wallet(process.env.GAS_WALLET_PK, provider)
     //console.log("private key", process.env.GAS_WALLET_PK)
 

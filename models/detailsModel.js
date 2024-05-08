@@ -17,6 +17,14 @@ const DetailSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
+    current_chain: {
+        type: String,
+        default: "sepolia"
+    },
+    current_chain_rpc: {
+        type: String,
+        default: "wss://sepolia.gateway.tenderly.co"
+    },
     transactions: {
         type: Array
     }

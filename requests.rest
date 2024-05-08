@@ -1,6 +1,7 @@
 @baseurl = http://localhost:3000
 
 GET {{baseurl}}
+
 ###
 GET {{baseurl}}/details
 
